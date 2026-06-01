@@ -1,7 +1,5 @@
 //OXゲームのコンソールアプリケーション（機能追加Ver）
 
-//お試しで書いています。
-
 //縦横3行の枠で人間vsCOMで交互にOXを入力する
 //縦・横・斜めで同じ記号（O　or　X）が揃ったら勝敗を表示する
 
@@ -55,20 +53,22 @@ public class Main {
         System.out.println("COMの強さを選んでください");
         System.out.println("1: 弱い　2:ふつう　3:強い");
         // COMの強さを選択する
-        int level = scanner.nextInt();
+        String level = scanner.next();
+        if(!validLevel(level)){
+            System.out.println("正しい数値を入力してください。1: 弱い　2:ふつう　3:強い");
+            return;
+        }
         // 入力✓
-        if (!validLevelCheck(level)) {
+        
+
+        int comLevel = Integer.parseInt(level);
+        if (!validLevelCheck(comLevel)) {
             System.out.println("正しい数値を入力してください。1: 弱い　2:ふつう　3:強い");
             return;
         }
 
         // 盤面の用意と初期化
         int board[][] = new int[BOARD_MAX][BOARD_MAX];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                board[i][j] = EMPTY;
-            }
-        }
 
         // 処理
         while (winFlag == false && drawFlag == false) {
@@ -92,7 +92,7 @@ public class Main {
             }
 
             // COMの入力
-            markComPlace(board, level);
+            markComPlace(board, comLevel);
 
             // 勝利判定
             winFlag = checkWinAnswer(board, COM);
@@ -171,19 +171,19 @@ public class Main {
             System.out.println("あなたの番です。");
 
             System.out.println("行を入力してください。1~" + BOARD_MAX);
-            String Gyo = scanner.next();
+            String gyo = scanner.next();
 
             System.out.println("列を入力してください。1~" + BOARD_MAX);
-            String Retsu = scanner.next();
+            String retsu = scanner.next();
 
             // 入力チェック（範囲外かどうか）
-            if (validNumber(Gyo) == false || validNumber(Retsu) == false) {
+            if (validNumber(gyo) == false || validNumber(retsu) == false) {
                 System.out.println("正しい数値を入力してください。1~" + BOARD_MAX);
                 continue;
             }
 
-            int GyoNum = Integer.parseInt(Gyo) - 1;
-            int RetsuNum = Integer.parseInt(Retsu) - 1;
+            int GyoNum = Integer.parseInt(gyo) - 1;
+            int RetsuNum = Integer.parseInt(retsu) - 1;
 
             // 入力チェック（空欄かどうか）
             if (board[GyoNum][RetsuNum] != EMPTY) {
@@ -306,7 +306,15 @@ public class Main {
         }
         return false;
     }
-
+    
+    public static boolean validLevel(String input){
+        for(int i=LEVEL_EASY; i<=LEVEL_HARD;i++){
+            if(input.equals(String.valueOf(i))){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * レベルEasyの配置メソッド
      * 
