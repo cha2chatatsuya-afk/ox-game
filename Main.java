@@ -59,13 +59,8 @@ public class Main {
             return;
         }
         // 入力✓
-        
-
+    
         int comLevel = Integer.parseInt(level);
-        if (!validLevelCheck(comLevel)) {
-            System.out.println("正しい数値を入力してください。1: 弱い　2:ふつう　3:強い");
-            return;
-        }
 
         // 盤面の用意と初期化
         int board[][] = new int[BOARD_MAX][BOARD_MAX];
@@ -182,17 +177,17 @@ public class Main {
                 continue;
             }
 
-            int GyoNum = Integer.parseInt(gyo) - 1;
-            int RetsuNum = Integer.parseInt(retsu) - 1;
+            int gyoNum = Integer.parseInt(gyo) - 1;
+            int retsuNum = Integer.parseInt(retsu) - 1;
 
             // 入力チェック（空欄かどうか）
-            if (board[GyoNum][RetsuNum] != EMPTY) {
+            if (board[gyoNum][retsuNum] != EMPTY) {
                 System.out.println("既に埋まっています。別の場所を指定してください。");
                 continue;
             }
 
             // 盤面に O or X を置く
-            board[GyoNum][RetsuNum] = HUMAN;
+            board[gyoNum][retsuNum] = HUMAN;
             inputCheck = true;
         }
     }
@@ -272,7 +267,6 @@ public class Main {
      */
     public static void markComPlace(int[][] board, int level) {
         // 入力チェック
-        validLevelCheck(level);
         switch (level) {
             case LEVEL_EASY:
                 placeEasy(board);
@@ -293,20 +287,10 @@ public class Main {
     }
 
     /**
-     * 入力レベルのチェック
-     * 
-     * @param level
+     * 入力したLevelが設定値内か確認する
+     * @param input
      * @return 判定
      */
-    public static boolean validLevelCheck(int level) {
-        for (int i = 1; i < LEVEL_HARD + 1; i++) {
-            if (level == i) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     public static boolean validLevel(String input){
         for(int i=LEVEL_EASY; i<=LEVEL_HARD;i++){
             if(input.equals(String.valueOf(i))){
